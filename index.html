@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* INTRO POPUP */
+    .intro {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .intro-box {
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      text-align: center;
+      animation: pop 0.4s ease;
+    }
+
+    .intro-box h2 {
+      color: #ff4d6d;
+    }
+
+    .intro-box button {
+      margin-top: 20px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      border: none;
+      background: #ff4d6d;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* MAIN CARD */
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    h1 { color: #ff4d6d; }
+    p { color: #333; }
+    h2 { margin: 20px 0; }
+
+    .buttons {
+      position: relative;
+      height: 160px;
+    }
+
+    button {
+      width: 120px;
+      height: 45px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      left: 20px;
+      bottom: 20px;
+    }
+
+    #noBtn {
+      background: #ccc;
+      color: black;
+      right: 20px;
+      bottom: 20px;
+    }
+
+    /* YES POPUP */
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.5); }
+      to { transform: scale(1); }
+    }
+
+    /* EMOJI RAIN */
+    .emoji {
+      position: fixed;
+      font-size: 26px;
+      animation: fall 3s linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bgMusic" loop>
+    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Asher_Fulero/Instrumental_Love/Asher_Fulero_-_03_-_Tenderness.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- INTRO -->
+  <div class="intro" id="intro">
+    <div class="intro-box">
+      <h2>Hey Nandhu ❤️</h2>
+      <p>This is for you 😊</p>
+      <button id="openBtn">Open 💖</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="card" id="mainCard">
+    <h1>Hey ❤️</h1>
+    <p>
+      I’ve waited a long time to say this…  
+      you mean everything to me 🥰
+    </p>
+
+    <h2>Will you be my wife? 💍</h2>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 😍</button>
+      <button id="noBtn">No 🙃</button>
+    </div>
+  </div>
+
+  <!-- YES POPUP -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>Congratulations 💖🎉</h2>
+      <p>You just made me the happiest guy alive 🥰</p>
+    </div>
+  </div>
+
+  <script>
+    const intro = document.getElementById("intro");
+    const openBtn = document.getElementById("openBtn");
+    const mainCard = document.getElementById("mainCard");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const popup = document.getElementById("popup");
+    const music = document.getElementById("bgMusic");
+
+    // OPEN BUTTON
+    openBtn.addEventListener("click", () => {
+      intro.style.display = "none";
+      mainCard.style.display = "block";
+      music.play(); // 🎵 START MUSIC
+      startEmojiRain(["💍","❤️","😘"]);
+    });
+
+    // NO BUTTON MOVES
+    const positions = [
+      { top: "10px", left: "10px" },
+      { top: "10px", right: "10px" },
+      { bottom: "10px", left: "10px" },
+      { bottom: "10px", right: "10px" }
+    ];
+
+    noBtn.addEventListener("click", () => {
+      const pos = positions[Math.floor(Math.random() * positions.length)];
+      noBtn.style.top = "auto";
+      noBtn.style.bottom = "auto";
+      noBtn.style.left = "auto";
+      noBtn.style.right = "auto";
+      Object.assign(noBtn.style, pos);
+    });
+
+    // YES BUTTON
+    yesBtn.addEventListener("click", () => {
+      popup.style.display = "flex";
+      startEmojiRain(["💖","😍","🥰","❤️","💍","😘"]);
+
+      setTimeout(() => {
+        window.open(
+          "https://wa.me/8111835438?text=" +
+          encodeURIComponent("I love you Yadhu ❤️"),
+          "_blank"
+        );
+      }, 1500);
+    });
+
+    function startEmojiRain(emojis) {
+      for (let i = 0; i < 50; i++) {
+        const e = document.createElement("div");
+        e.classList.add("emoji");
+        e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.top = "-30px";
+        e.style.animationDuration = 2 + Math.random() * 2 + "s";
+        document.body.appendChild(e);
+        setTimeout(() => e.remove(), 3000);
+      }
+    }
+  </script>
+
+</body>
+</html>
